@@ -1,4 +1,4 @@
-// Copyright © Decebal Mihailescu 2015
+// Copyright Â© Decebal Mihailescu 2015
 // Some code was obtained by reverse engineering the PresentationFramework.dll using Reflector
 
 // All rights reserved.
@@ -7,7 +7,7 @@
 // THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
 // KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR
-// PURPOSE. IT CAN BE DISTRIBUTED FREE OF CHARGE AS LONG AS THIS HEADER 
+// PURPOSE. IT CAN BE DISTRIBUTED FREE OF CHARGE AS LONG AS THIS HEADER
 // REMAINS UNCHANGED.
 namespace WpfCustomFileDialog
 {
@@ -23,7 +23,7 @@ namespace WpfCustomFileDialog
     using System.Text;
     using System.Windows;
     using System.Reflection;
-    using System.Windows.Interop; 
+    using System.Windows.Interop;
     using System.Windows.Controls;
     public abstract partial class FileDialogExt<T> : Microsoft.Win32.CommonDialog, IFileDlgExt where T : ContentControl, IWindowExt, new()
     {
@@ -525,10 +525,12 @@ namespace WpfCustomFileDialog
                 }
                 if (_fakeKey != null)
                     ResetPlaces();
+#if false
                 if(m_places != null)
                     SetupFakeRegistryTree();
+#endif
                 flag = this.RunFileDialog(ofn);
- 
+
             }
             finally
             {
