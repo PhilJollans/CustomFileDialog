@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31424.327
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomOpenFileDialog_v12", "CustomOpenFileDialog_v12.csproj", "{63F16AD6-3C52-43BA-A3D7-981AC870E7CE}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -14,24 +14,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoManager_12", "VideoMan
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfCustomFileDialog_12", "WpfCustomFileDialog\WpfCustomFileDialog_12.csproj", "{99B4B46D-B52D-4EAF-98EE-C7B398575D90}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E4C71087-8C95-4ED2-A5F6-56979FD64833}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 5
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs04
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = CustomOpenFileDialog_v12.csproj
-		SccLocalPath1 = .
-		SccProjectUniqueName2 = FileDlgExtenders\\FileDlgExtenders_v12.csproj
-		SccProjectName2 = FileDlgExtenders
-		SccLocalPath2 = FileDlgExtenders
-		SccProjectUniqueName3 = VideoManager\\VideoManager_12.csproj
-		SccProjectName3 = VideoManager
-		SccLocalPath3 = VideoManager
-		SccProjectUniqueName4 = WpfCustomFileDialog\\WpfCustomFileDialog_12.csproj
-		SccProjectName4 = WpfCustomFileDialog
-		SccLocalPath4 = WpfCustomFileDialog
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -56,5 +44,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {09966C7E-3E94-45BA-9F62-48AAE86A61D2}
 	EndGlobalSection
 EndGlobal
