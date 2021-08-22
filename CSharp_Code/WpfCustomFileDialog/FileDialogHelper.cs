@@ -1,4 +1,4 @@
-﻿// Copyright © Decebal Mihailescu 2015
+// Copyright © Decebal Mihailescu 2015
 // Some code was obtained by reverse engineering the PresentationFramework.dll using Reflector
 
 // All rights reserved.
@@ -7,7 +7,7 @@
 // THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
 // KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR
-// PURPOSE. IT CAN BE DISTRIBUTED FREE OF CHARGE AS LONG AS THIS HEADER 
+// PURPOSE. IT CAN BE DISTRIBUTED FREE OF CHARGE AS LONG AS THIS HEADER
 // REMAINS UNCHANGED.
 using System;
 using System.Collections.Generic;
@@ -384,8 +384,8 @@ namespace WpfCustomFileDialog
         protected object InvokeMethod(object instance, string methodName, params object[] args)
         {
             Type type = (instance is Type) ? instance as Type : instance.GetType();
-            MethodInfo mi = type.GetMethod(methodName, (instance is Type) ? BindingFlags.NonPublic | BindingFlags.Static : BindingFlags.NonPublic | BindingFlags.Instance);//invoking the method                 
-            //null- no parameter for the function [or] we can pass the array of parameters            
+            MethodInfo mi = type.GetMethod(methodName, (instance is Type) ? BindingFlags.NonPublic | BindingFlags.Static : BindingFlags.NonPublic | BindingFlags.Instance);//invoking the method
+            //null- no parameter for the function [or] we can pass the array of parameters
             return (args == null || args.Length == 0) ? mi.Invoke(instance, null) : mi.Invoke(instance, args);
         }
         protected object GetProperty(object target, string fieldName)
@@ -632,6 +632,24 @@ namespace WpfCustomFileDialog
                     break;
 
                 case NativeMethods.Msg.WM_WINDOWPOSCHANGING:
+                    // Code from Tayyaba Naz in the disucussion on the code project page:
+                    // https://www.codeproject.com/Articles/42008/Extend-OpenFileDialog-and-SaveFileDialog-Using-WPF
+                    // This only works if the control is at the bottom and doesn't add a margin.
+                    //if ( _childWnd is Window)
+                    //{
+                    //    Window wnd = _childWnd as Window;
+                    //    RECT dialogWndRect = new RECT();
+                    //    NativeMethods.GetWindowRect(new HandleRef(this, this._hwndFileDialog), ref dialogWndRect);
+                    //    wnd.Width = dialogWndRect.Width ;
+                    //}
+                    RECT dialogWndRect = new RECT();
+                    NativeMethods.GetWindowRect ( new HandleRef ( this, this._hwndFileDialog ), ref dialogWndRect );
+                    RECT dialogClientRect = new RECT();
+                    NativeMethods.GetClientRect ( new HandleRef ( this, this._hwndFileDialog ), ref dialogClientRect );
+                    uint dx = dialogWndRect.Width - dialogClientRect.Width;
+                    uint dy = dialogWndRect.Height - dialogClientRect.Height;
+
+                    _childWnd.Width = dialogWndRect.Width - dx;
 
                     break;
 
@@ -690,6 +708,31 @@ namespace WpfCustomFileDialog
                     break;
 
                 case NativeMethods.Msg.WM_WINDOWPOSCHANGING:
+                    // Code from Tayyaba Naz in the disucussion on the code project page:
+                    // https://www.codeproject.com/Articles/42008/Extend-OpenFileDialog-and-SaveFileDialog-Using-WPF
+                    // This only works if the control is at the bottom and doesn't add a margin.
+                    //if ( _childWnd is Window )
+                    //{
+                    //    Window wnd = _childWnd as Window;
+                    //    RECT dialogWndRect = new RECT();
+                    //    NativeMethods.GetWindowRect ( new HandleRef ( this, this._hwndFileDialog ), ref dialogWndRect );
+                    //    wnd.Width = dialogWndRect.Width;
+                    //}
+
+                    RECT dialogWndRect = new RECT();
+                    NativeMethods.GetWindowRect ( new HandleRef ( this, this._hwndFileDialog ), ref dialogWndRect );
+                    RECT dialogClientRect = new RECT();
+                    NativeMethods.GetClientRect ( new HandleRef ( this, this._hwndFileDialog ), ref dialogClientRect );
+                    uint dx = dialogWndRect.Width - dialogClientRect.Width;
+                    uint dy = dialogWndRect.Height - dialogClientRect.Height;
+
+                    _childWnd.Width = dialogWndRect.Width - dx ;
+
+                    const NativeMethods.SetWindowPosFlags flags = NativeMethods.SetWindowPosFlags.SWP_NOZORDER | NativeMethods.SetWindowPosFlags.SWP_NOMOVE;//| SetWindowPosFlags.SWP_NOREPOSITION | SetWindowPosFlags.SWP_ASYNCWINDOWPOS | SetWindowPosFlags.SWP_SHOWWINDOW | SetWindowPosFlags.SWP_DRAWFRAME;
+                    ContentControl ctrl = _childWnd as ContentControl;
+
+                    NativeMethods.SetWindowPos ( new HandleRef ( ctrl, _source.Handle ), new HandleRef ( _source, (IntPtr)ZOrderPos.HWND_BOTTOM ),
+                                               0, (int)( _OriginalRect.Height - dy + dx / 2 ), (int)( ctrl.Width ), (int)( ctrl.Height ), flags );
 
                     break;
 
@@ -768,11 +811,11 @@ namespace WpfCustomFileDialog
                 NativeMethods.SetParent(new HandleRef(_childWnd, _source.Handle), new HandleRef(this, _hwndFileDialog));
             }
             else
-            {// To do: what if the child is not a Window 
+            {// To do: what if the child is not a Window
                 //see http://social.msdn.microsoft.com/Forums/en-US/wpf/thread/b2cff333-cbd9-4742-beba-ba19a15eeaee
                 ContentControl ctrl = _childWnd as ContentControl;
                 HwndSourceParameters parameters = new HwndSourceParameters("WPFDlgControl", (int)ctrl.Width, (int)ctrl.Height);
-                parameters.WindowStyle = (int)NativeMethods.WindowStyles.WS_VISIBLE | (int)NativeMethods.WindowStyles.WS_CHILD;
+                parameters.WindowStyle = (int)NativeMethods.WindowStyles.WS_VISIBLE | (int)NativeMethods.WindowStyles.WS_CHILD ;
                 parameters.SetPosition((int)_OriginalRect.Width, (int)_OriginalRect.Height);
                 parameters.ParentWindow = _hwndFileDialog;
                 parameters.AdjustSizingForNonClientArea = false;
@@ -799,6 +842,7 @@ namespace WpfCustomFileDialog
 
                 _source = new HwndSource(parameters);
                 _source.CompositionTarget.BackgroundColor = System.Windows.Media.Colors.LightGray;
+                _source.SizeToContent = SizeToContent.WidthAndHeight ;
                 _source.RootVisual = _childWnd as System.Windows.Media.Visual;
                 _source.AddHook(new HwndSourceHook(EmbededCtrlProc));
             }
