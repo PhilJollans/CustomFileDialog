@@ -649,7 +649,17 @@ namespace WpfCustomFileDialog
                     uint dx = dialogWndRect.Width - dialogClientRect.Width;
                     uint dy = dialogWndRect.Height - dialogClientRect.Height;
 
-                    _childWnd.Width = dialogWndRect.Width - dx;
+                    switch ( FileDlgStartLocation )
+                    {
+                        case AddonWindowLocation.Bottom:
+                            _childWnd.Width = dialogWndRect.Width - dx;
+                            break;
+                        case AddonWindowLocation.Right:
+                            _childWnd.Height = dialogWndRect.Height - dy;
+                            break;
+                        case AddonWindowLocation.BottomRight:
+                            break;
+                    }
 
                     break;
 
@@ -726,7 +736,17 @@ namespace WpfCustomFileDialog
                     uint dx = dialogWndRect.Width - dialogClientRect.Width;
                     uint dy = dialogWndRect.Height - dialogClientRect.Height;
 
-                    _childWnd.Width = dialogWndRect.Width - dx ;
+                    switch ( FileDlgStartLocation )
+                    {
+                        case AddonWindowLocation.Bottom:
+                            _childWnd.Width = dialogWndRect.Width - dx;
+                            break;
+                        case AddonWindowLocation.Right:
+                            _childWnd.Height = dialogWndRect.Height - dy ;
+                            break;
+                        case AddonWindowLocation.BottomRight:
+                            break;
+                    }
 
                     const NativeMethods.SetWindowPosFlags flags = NativeMethods.SetWindowPosFlags.SWP_NOZORDER | NativeMethods.SetWindowPosFlags.SWP_NOMOVE;//| SetWindowPosFlags.SWP_NOREPOSITION | SetWindowPosFlags.SWP_ASYNCWINDOWPOS | SetWindowPosFlags.SWP_SHOWWINDOW | SetWindowPosFlags.SWP_DRAWFRAME;
                     ContentControl ctrl = _childWnd as ContentControl;
@@ -822,7 +842,7 @@ namespace WpfCustomFileDialog
                 switch (this.FileDlgStartLocation)
                 {
                     case AddonWindowLocation.Right:
-                        parameters.PositionX = (int)_OriginalRect.Width - dx/2;
+                        parameters.PositionX = (int)_OriginalRect.Width - dx ;
                         parameters.PositionY = 0;
                         if (ctrl.Height < _OriginalRect.Height - dy)
                             ctrl.Height = parameters.Height = (int)_OriginalRect.Height - dy;
@@ -830,13 +850,13 @@ namespace WpfCustomFileDialog
 
                     case AddonWindowLocation.Bottom:
                         parameters.PositionX = 0;
-                        parameters.PositionY = (int)(_OriginalRect.Height - dy + dx/2);
+                        parameters.PositionY = (int)(_OriginalRect.Height - dy );
                         if (ctrl.Width < _OriginalRect.Width - dx)
                             ctrl.Width = parameters.Width = (int)_OriginalRect.Width - dx;
                         break;
                     case AddonWindowLocation.BottomRight:
-                        parameters.PositionX = (int)_OriginalRect.Width - dx/2 ;
-                        parameters.PositionY = (int)(_OriginalRect.Height - dy + dx/2);
+                        parameters.PositionX = (int)_OriginalRect.Width - dx ;
+                        parameters.PositionY = (int)(_OriginalRect.Height - dy);
                         break;
                 }
 
