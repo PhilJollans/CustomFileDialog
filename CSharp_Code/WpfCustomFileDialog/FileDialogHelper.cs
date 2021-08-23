@@ -632,16 +632,8 @@ namespace WpfCustomFileDialog
                     break;
 
                 case NativeMethods.Msg.WM_WINDOWPOSCHANGING:
-                    // Code from Tayyaba Naz in the disucussion on the code project page:
+                    // Based on a suggestion from Tayyaba Naz in the disucussion on the code project page:
                     // https://www.codeproject.com/Articles/42008/Extend-OpenFileDialog-and-SaveFileDialog-Using-WPF
-                    // This only works if the control is at the bottom and doesn't add a margin.
-                    //if ( _childWnd is Window)
-                    //{
-                    //    Window wnd = _childWnd as Window;
-                    //    RECT dialogWndRect = new RECT();
-                    //    NativeMethods.GetWindowRect(new HandleRef(this, this._hwndFileDialog), ref dialogWndRect);
-                    //    wnd.Width = dialogWndRect.Width ;
-                    //}
                     RECT dialogWndRect = new RECT();
                     NativeMethods.GetWindowRect ( new HandleRef ( this, this._hwndFileDialog ), ref dialogWndRect );
                     RECT dialogClientRect = new RECT();
@@ -718,17 +710,8 @@ namespace WpfCustomFileDialog
                     break;
 
                 case NativeMethods.Msg.WM_WINDOWPOSCHANGING:
-                    // Code from Tayyaba Naz in the disucussion on the code project page:
+                    // Based on a suggestion from Tayyaba Naz in the disucussion on the code project page:
                     // https://www.codeproject.com/Articles/42008/Extend-OpenFileDialog-and-SaveFileDialog-Using-WPF
-                    // This only works if the control is at the bottom and doesn't add a margin.
-                    //if ( _childWnd is Window )
-                    //{
-                    //    Window wnd = _childWnd as Window;
-                    //    RECT dialogWndRect = new RECT();
-                    //    NativeMethods.GetWindowRect ( new HandleRef ( this, this._hwndFileDialog ), ref dialogWndRect );
-                    //    wnd.Width = dialogWndRect.Width;
-                    //}
-
                     RECT dialogWndRect = new RECT();
                     NativeMethods.GetWindowRect ( new HandleRef ( this, this._hwndFileDialog ), ref dialogWndRect );
                     RECT dialogClientRect = new RECT();
