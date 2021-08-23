@@ -1,4 +1,4 @@
-﻿' Copyright © Decebal Mihailescu 2015
+' Copyright © Decebal Mihailescu 2015
 ' Some code was obtained by reverse engineering the PresentationFramework.dll using Reflector
 
 ' All rights reserved.
@@ -7,7 +7,7 @@
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
 ' KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
 ' IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR
-' PURPOSE. IT CAN BE DISTRIBUTED FREE OF CHARGE AS LONG AS THIS HEADER 
+' PURPOSE. IT CAN BE DISTRIBUTED FREE OF CHARGE AS LONG AS THIS HEADER
 ' REMAINS UNCHANGED.
 
 Imports Microsoft.VisualBasic
@@ -356,7 +356,7 @@ Namespace WpfCustomFileDialog
 		Protected Function InvokeMethod(ByVal instance As Object, ByVal methodName As String, ParamArray ByVal args() As Object) As Object
 			Dim type As Type = If((TypeOf instance Is Type), TryCast(instance, Type), instance.GetType())
 			Dim mi As MethodInfo = type.GetMethod(methodName,If((TypeOf instance Is Type), BindingFlags.NonPublic Or BindingFlags.Static, BindingFlags.NonPublic Or BindingFlags.Instance)) 'invoking the method
-			'null- no parameter for the function [or] we can pass the array of parameters            
+			'null- no parameter for the function [or] we can pass the array of parameters
 			Return If((args Is Nothing OrElse args.Length = 0), mi.Invoke(instance, Nothing), mi.Invoke(instance, args))
 		End Function
 		Protected Function GetProperty(ByVal target As Object, ByVal fieldName As String) As Object
@@ -547,7 +547,22 @@ Namespace WpfCustomFileDialog
 				Case NativeMethods.Msg.WM_NCDESTROY
 
 				Case NativeMethods.Msg.WM_WINDOWPOSCHANGING
+                    'Based on a suggestion from Tayyaba Naz in the disucussion on the code project page:
+                    'https://www.codeproject.com/Articles/42008/Extend-OpenFileDialog-and-SaveFileDialog-Using-WPF
+			        Dim dialogWndRect As New RECT()
+			        NativeMethods.GetWindowRect(New HandleRef(Me, Me._hwndFileDialog), dialogWndRect)
+			        Dim dialogClientRect As New RECT()
+			        NativeMethods.GetClientRect(New HandleRef(Me, Me._hwndFileDialog), dialogClientRect)
+			        Dim dx As UInteger = dialogWndRect.Width - dialogClientRect.Width
+			        Dim dy As UInteger = dialogWndRect.Height - dialogClientRect.Height
 
+                    select case FileDlgStartLocation
+                        case AddonWindowLocation.Bottom
+                            _childWnd.Width = dialogWndRect.Width - dx
+                        case AddonWindowLocation.Right
+                            _childWnd.Height = dialogWndRect.Height - dy
+                        case AddonWindowLocation.BottomRight
+                    End Select
 
 				Case NativeMethods.Msg.WM_SIZING
 				Case NativeMethods.Msg.WM_SIZE
@@ -593,6 +608,28 @@ Namespace WpfCustomFileDialog
 				Case NativeMethods.Msg.WM_NCDESTROY
 
 				Case NativeMethods.Msg.WM_WINDOWPOSCHANGING
+                    'Based on a suggestion from Tayyaba Naz in the disucussion on the code project page:
+                    'https://www.codeproject.com/Articles/42008/Extend-OpenFileDialog-and-SaveFileDialog-Using-WPF
+			        Dim dialogWndRect As New RECT()
+			        NativeMethods.GetWindowRect(New HandleRef(Me, Me._hwndFileDialog), dialogWndRect)
+			        Dim dialogClientRect As New RECT()
+			        NativeMethods.GetClientRect(New HandleRef(Me, Me._hwndFileDialog), dialogClientRect)
+			        Dim dx As UInteger = dialogWndRect.Width - dialogClientRect.Width
+			        Dim dy As UInteger = dialogWndRect.Height - dialogClientRect.Height
+
+                    select case FileDlgStartLocation
+                        case AddonWindowLocation.Bottom
+                            _childWnd.Width = dialogWndRect.Width - dx
+                        case AddonWindowLocation.Right
+                            _childWnd.Height = dialogWndRect.Height - dy
+                        case AddonWindowLocation.BottomRight
+                    End Select
+
+				    Const flags As NativeMethods.SetWindowPosFlags = NativeMethods.SetWindowPosFlags.SWP_NOZORDER Or NativeMethods.SetWindowPosFlags.SWP_NOMOVE '| SetWindowPosFlags.SWP_NOREPOSITION | SetWindowPosFlags.SWP_ASYNCWINDOWPOS | SetWindowPosFlags.SWP_SHOWWINDOW | SetWindowPosFlags.SWP_DRAWFRAME;
+    				Dim ctrl As ContentControl = TryCast(_childWnd, ContentControl)
+
+					NativeMethods.SetWindowPos ( New HandleRef ( ctrl, _source.Handle ), New HandleRef(_source, CType(ZOrderPos.HWND_BOTTOM, IntPtr)),
+                                                 0, 0, CInt(Fix(ctrl.Width)), CInt(Fix(ctrl.Height)), flags )
 
 
 				Case NativeMethods.Msg.WM_SIZING
@@ -657,7 +694,7 @@ Namespace WpfCustomFileDialog
 				parameters.AdjustSizingForNonClientArea = False
 				Select Case Me.FileDlgStartLocation
 					Case AddonWindowLocation.Right
-						parameters.PositionX = CInt(Fix(_OriginalRect.Width)) - dx\2
+						parameters.PositionX = CInt(Fix(_OriginalRect.Width)) - dx
 						parameters.PositionY = 0
 						If ctrl.Height < _OriginalRect.Height - dy Then
 							parameters.Height = CInt(Fix(_OriginalRect.Height)) - dy
@@ -666,18 +703,19 @@ Namespace WpfCustomFileDialog
 
 					Case AddonWindowLocation.Bottom
 						parameters.PositionX = 0
-						parameters.PositionY = CInt(Fix(_OriginalRect.Height - dy + dx\2))
+						parameters.PositionY = CInt(Fix(_OriginalRect.Height - dy ))
 						If ctrl.Width < _OriginalRect.Width - dx Then
 							parameters.Width = CInt(Fix(_OriginalRect.Width)) - dx
 							ctrl.Width = parameters.Width
 						End If
 					Case AddonWindowLocation.BottomRight
-						parameters.PositionX = CInt(Fix(_OriginalRect.Width)) - dx\2
-						parameters.PositionY = CInt(Fix(_OriginalRect.Height - dy + dx\2))
+						parameters.PositionX = CInt(Fix(_OriginalRect.Width)) - dx
+						parameters.PositionY = CInt(Fix(_OriginalRect.Height - dy ))
 				End Select
 
 				_source = New HwndSource(parameters)
 				_source.CompositionTarget.BackgroundColor = System.Windows.Media.Colors.LightGray
+                _source.SizeToContent = SizeToContent.WidthAndHeight
 				_source.RootVisual = TryCast(_childWnd, System.Windows.Media.Visual)
 				_source.AddHook(New HwndSourceHook(AddressOf EmbededCtrlProc))
 			End If
@@ -695,7 +733,7 @@ Namespace WpfCustomFileDialog
 			End Select
 			NativeMethods.SetWindowPos(New HandleRef(Me, _hwndFileDialog), New HandleRef(Me, CType(NativeMethods.ZOrderPos.HWND_BOTTOM, IntPtr)), 0, 0, CInt(Fix(size.Width)), CInt(Fix(size.Height)), NativeMethods.SetWindowPosFlags.SWP_NOZORDER)
 		End Sub
-		
+
 		Private Function AnonymousMethod1(ByVal sender As Object, ByVal e As EventArgs) As Object
 		  Try
 			  _source = TryCast(System.Windows.PresentationSource.FromVisual(TryCast(_childWnd, Window)), HwndSource)

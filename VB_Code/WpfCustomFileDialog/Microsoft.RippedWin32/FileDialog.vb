@@ -1,4 +1,4 @@
-' Copyright © Decebal Mihailescu 2015
+' Copyright Â© Decebal Mihailescu 2015
 ' Some code was obtained by reverse engineering the PresentationFramework.dll using Reflector
 
 ' All rights reserved.
@@ -7,7 +7,7 @@
 ' THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
 ' KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
 ' IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR
-' PURPOSE. IT CAN BE DISTRIBUTED FREE OF CHARGE AS LONG AS THIS HEADER 
+' PURPOSE. IT CAN BE DISTRIBUTED FREE OF CHARGE AS LONG AS THIS HEADER
 ' REMAINS UNCHANGED.
 
 Imports Microsoft.VisualBasic
@@ -418,9 +418,11 @@ Namespace WpfCustomFileDialog
                 If _fakeKey IsNot Nothing Then
                     ResetPlaces()
                 End If
+#If False Then
                 If m_places IsNot Nothing Then
                     SetupFakeRegistryTree()
                 End If
+#End If
                 flag = Me.RunFileDialog(ofn)
 
             Finally
