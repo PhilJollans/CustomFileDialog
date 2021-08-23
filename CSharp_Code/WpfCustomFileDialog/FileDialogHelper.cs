@@ -735,7 +735,7 @@ namespace WpfCustomFileDialog
                     ContentControl ctrl = _childWnd as ContentControl;
 
                     NativeMethods.SetWindowPos ( new HandleRef ( ctrl, _source.Handle ), new HandleRef ( _source, (IntPtr)ZOrderPos.HWND_BOTTOM ),
-                                               0, (int)( _OriginalRect.Height - dy + dx / 2 ), (int)( ctrl.Width ), (int)( ctrl.Height ), flags );
+                                                 0, 0, (int)( ctrl.Width ), (int)( ctrl.Height ), flags );
 
                     break;
 
