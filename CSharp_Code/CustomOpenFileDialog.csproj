@@ -136,7 +136,7 @@
   <ItemGroup>
     <ProjectReference Include="FileDlgExtenders\FileDlgExtenders.csproj">
       <Project>{9B4DA48C-6D11-46C9-A63D-D369E9C5FE42}</Project>
-      <Name>FileDlgExtenders_v12</Name>
+      <Name>FileDlgExtenders</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
