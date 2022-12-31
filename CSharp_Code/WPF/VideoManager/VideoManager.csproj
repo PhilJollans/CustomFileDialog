@@ -62,7 +62,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Interop.WMEncoderLib">
-      <HintPath>..\..\Interop.WMEncoderLib.dll</HintPath>
+      <HintPath>Interop.WMEncoderLib.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
