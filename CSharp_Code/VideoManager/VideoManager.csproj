@@ -184,7 +184,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WpfCustomFileDialog\WpfCustomFileDialog_12.csproj">
+    <ProjectReference Include="..\WpfCustomFileDialog\WpfCustomFileDialog.csproj">
       <Project>{99B4B46D-B52D-4EAF-98EE-C7B398575D90}</Project>
       <Name>WpfCustomFileDialog_12</Name>
     </ProjectReference>
