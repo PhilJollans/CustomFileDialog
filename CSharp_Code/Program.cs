@@ -1,4 +1,4 @@
-//  Copyright (c) 2006, Gustavo Franco
+﻿//  Copyright (c) 2006, Gustavo Franco
 //  Email:  gustavo_franco@hotmail.com
 //  All rights reserved.
 

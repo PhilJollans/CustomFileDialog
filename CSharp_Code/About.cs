@@ -1,4 +1,4 @@
-/*
+ï»¿/*
  * Please leave this Copyright notice in your code if you use it
  * Written by Decebal Mihailescu [http://www.codeproject.com/script/articles/list_articles.asp?userid=634640]
  */
@@ -74,7 +74,7 @@ namespace AboutUtil
             this._linkLabelAbout.Name = "_linkLabelAbout";
             this._linkLabelAbout.Size = new System.Drawing.Size(249, 24);
             this._linkLabelAbout.TabIndex = 0;
-            this._linkLabelAbout.Text = "Copyright © 2007-2012  Decebal Mihailescu";
+            this._linkLabelAbout.Text = "Copyright Â© 2007-2012  Decebal Mihailescu";
             this._linkLabelAbout.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._linkLabelAbout.UseCompatibleTextRendering = true;
             this._linkLabelAbout.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelAbout_LinkClicked);
@@ -117,7 +117,7 @@ namespace AboutUtil
             this._lnksecond.Size = new System.Drawing.Size(249, 24);
             this._lnksecond.TabIndex = 0;
             this._lnksecond.TabStop = true;
-            this._lnksecond.Text = "Copyright ©  CastorTiu 2006";
+            this._lnksecond.Text = "Copyright Â©  CastorTiu 2006";
             this._lnksecond.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._lnksecond.UseCompatibleTextRendering = true;
             this._lnksecond.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelAbout_LinkClicked);
@@ -186,15 +186,15 @@ namespace AboutUtil
                 this._linkLabelAbout.LinkArea = new System.Windows.Forms.LinkArea(start, company.Company.Length);
             }
             else
-            {// company not found in copyright string, so check for Copyright ©
-                int size = "Copyright © ".Length;
-                start = strcpy.IndexOf("Copyright ©", 0, StringComparison.InvariantCultureIgnoreCase);
+            {// company not found in copyright string, so check for Copyright Â©
+                int size = "Copyright Â© ".Length;
+                start = strcpy.IndexOf("Copyright Â©", 0, StringComparison.InvariantCultureIgnoreCase);
                 if (start != -1)
                 {
                     this._linkLabelAbout.LinkArea = new System.Windows.Forms.LinkArea(size, strcpy.Length - size);
                 }
                 else
-                {// no Copyright © string, activate the whole area
+                {// no Copyright Â© string, activate the whole area
                     this._linkLabelAbout.LinkArea = new System.Windows.Forms.LinkArea(0, strcpy.Length);
                 }
             }
