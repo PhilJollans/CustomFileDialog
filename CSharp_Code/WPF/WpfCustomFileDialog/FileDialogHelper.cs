@@ -210,12 +210,11 @@ namespace WpfCustomFileDialog
             {
                 if (IntPtr.Size == 4)
                 {
-
-                    styles ^= System.Convert.ToInt64(NativeMethods.WindowStyles.WS_THICKFRAME);
+                    styles &= ~System.Convert.ToInt64(NativeMethods.WindowStyles.WS_THICKFRAME);
                 }
                 else
                 {
-                    styles |= (long)NativeMethods.WindowStyles.WS_BORDER;
+                    styles &= ~(long)NativeMethods.WindowStyles.WS_THICKFRAME;
                 }
             }
             NativeMethods.CriticalSetWindowLong(new HandleRef(this, hwnd), (int)GWL.GWL_STYLE, new IntPtr(styles));
