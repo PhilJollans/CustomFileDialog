@@ -1,0 +1,24 @@
+<cfd:ControlAddOnBase x:Class="SideBarDemo.SideBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:cfd="clr-namespace:WpfCustomFileDialog;assembly=WpfCustomFileDialog"
+             xmlns:local="clr-namespace:SideBarDemo"
+             Width="300" Height="450"
+             Loaded="ControlAddOnBase_Loaded">
+<!--
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             d:DataContext="{d:DesignInstance Type=local:SideBarVM, IsDesignTimeCreatable=True}"
+             d:DesignHeight="450" d:DesignWidth="300"
+             mc:Ignorable="d" 
+-->
+  <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
+    <Border Margin="5" BorderThickness="2" BorderBrush="Red">
+    <Grid>
+        <Button Width="50" Height="50"/>
+
+      </Grid>
+  </Border>
+  </Grid>
+
+</cfd:ControlAddOnBase>
