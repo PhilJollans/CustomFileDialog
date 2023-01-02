@@ -1,4 +1,4 @@
-﻿// Copyright © Decebal Mihailescu 2015
+// Copyright © Decebal Mihailescu 2015
 // Some code was obtained by reverse engineering the PresentationFramework.dll using Reflector
 
 // All rights reserved.
@@ -62,5 +62,5 @@ using System.Windows;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.2.0.0")]
-[assembly: AssemblyFileVersion("1.2.0.0")]
+[assembly: AssemblyVersion("1.3.0.0")]
+[assembly: AssemblyFileVersion("1.3.0.0")]
