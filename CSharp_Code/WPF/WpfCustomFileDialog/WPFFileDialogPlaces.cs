@@ -1,4 +1,4 @@
-﻿// Copyright © Decebal Mihailescu 2015
+// Copyright © Decebal Mihailescu 2015
 
 // All rights reserved.
 // This code is released under The Code Project Open License (CPOL) 1.02
@@ -27,18 +27,13 @@ namespace WpfCustomFileDialog
 
         public void SetPlaces(object[] places)
         {
-            if (m_places == null)
-                m_places = new object[5];
-            else
-                m_places.Initialize();
-
-            if (places != null)
+            if ( places != null )
             {
-                for (int i = 0; i < m_places.GetLength(0); i++)
-                {
-                    m_places[i] = places[i];
-
-                }
+                m_places = (object[])places.Clone() ;
+            }
+            else
+            {
+                m_places = null ;
             }
         }
 
